@@ -1,10 +1,9 @@
-%define	version	6700
+%define	version	6700b
 
 Name:		anthy
 Version:	%{version}
 Release:	1
 License:	GPL
-Group:		System Environment/Libraries
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	emacs xemacs
@@ -13,23 +12,18 @@ Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 
 Summary:	Japanese character set input library
+Group:		System Environment/Libraries
+Obsoletes:	anthy-libs
 %description
 Anthy provides the library to input Japanese on the applications, such as
 X applications and emacs. and the user dictionaries and the users information
 which is used for the conversion, is stored into their own home directory.
 So Anthy is secure than other conversion server.
 
-%package	libs
-Summary:	Runtime library for Anthy
-Group:		System Environment/Libraries
-%description	libs
-The anthy-libs package contains the runtime library to get working the programs
-which uses Anthy, Japanese character set input library.
-
 %package	devel
 Summary:	Header files and library for developing programs which uses Anthy
 Group:		Development/Libraries
-Requires:	anthy-libs = %{version}-%{release}
+Requires:	anthy = %{version}-%{release}
 %description	devel
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
@@ -43,14 +37,14 @@ Requires:	anthy = %{version}-%{release}
 The anthy-el package contains the emacs lisp to be able to input Japanese
 character set on Emacs.
 
-%package	el-xemacs
-Summary:	Emacs Lisp files to use Anthy on XEmacs
-Group:		System Environment/Libraries
-Requires:	xemacs
-Requires:	anthy = %{version}-%{release}
-%description	el-xemacs
-The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
-character set on XEmacs.
+#%%package	el-xemacs
+#Summary:	Emacs Lisp files to use Anthy on XEmacs
+#Group:		System Environment/Libraries
+#Requires:	xemacs
+#Requires:	anthy = %{version}-%{release}
+#%description	el-xemacs
+#The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
+#character set on XEmacs.
 
 %prep
 %setup -q
@@ -69,13 +63,13 @@ rm -rf $RPM_BUILD_ROOT
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
 
 ## for anthy-el-xemacs
-%__mkdir_p $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
-pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
-make clean
-make EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
-make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
-popd
+#%%__mkdir_p $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
+#install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
+#pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
+#make clean
+#make EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
+#make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
+#popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,11 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING ChangeLog DIARY NEWS README doc
 %{_bindir}/*
 %{_sysconfdir}/*
-%{_datadir}/anthy/
-
-%files libs
-%defattr (-, root, root)
 %{_libdir}/lib*.so.*
+%{_datadir}/anthy/
 
 %files devel
 %defattr (-, root, root)
@@ -104,12 +95,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/emacs/site-lisp/anthy/
 %{_datadir}/emacs/site-lisp/site-start.d/anthy-init.el
 
-%files el-xemacs
-%defattr (-, root, root)
-%{_datadir}/xemacs/xemacs-packages/lisp/anthy/
-%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
+#%%files el-xemacs
+#%%defattr (-, root, root)
+#%%{_datadir}/xemacs/xemacs-packages/lisp/anthy/
+#%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Fri Jul 29 2005 Akira TAGOH <tagoh@redhat.com> - 6700b-1
+- New upstream release.
+- Import into Core.
+- includes the libraries into anthy and added Obsoletes: anthy-libs.
+
 * Wed Jun 29 2005 Akira TAGOH <tagoh@redhat.com> - 6700-1
 - New upstream release.
 

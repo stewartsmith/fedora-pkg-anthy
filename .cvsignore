@@ -1,1 +1,6 @@
+cvs-*
+*.bz2
+*.gz
+*.rpm
 anthy-6700.tar.gz
+anthy-6700b.tar.gz
