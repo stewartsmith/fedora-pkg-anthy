@@ -6,7 +6,8 @@ Release:	1
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
-BuildRequires:	emacs xemacs
+BuildRequires:	emacs
+#BuildRequires:	xemacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
