@@ -15,6 +15,7 @@ Source1:	anthy-init.el
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
 Obsoletes:	anthy-libs
+Provides:	anthy-libs = %{name}-%{version}
 %description
 Anthy provides the library to input Japanese on the applications, such as
 X applications and emacs. and the user dictionaries and the users information
@@ -102,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Mon Aug  1 2005 Akira TAGOH <tagoh@redhat.com> - 6700b-2
+- added Provides: anthy-libs = %%{name}-%%{version}
+
 * Fri Jul 29 2005 Akira TAGOH <tagoh@redhat.com> - 6700b-1
 - New upstream release.
 - Import into Core.
