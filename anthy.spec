@@ -2,7 +2,7 @@
 
 Name:		anthy
 Version:	%{version}
-Release:	2
+Release:	2.fc5
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Aug  9 2005 Akira TAGOH <tagoh@redhat.com>
+- added dist tag in Release.
+
 * Mon Aug  1 2005 Akira TAGOH <tagoh@redhat.com> - 6700b-2
 - added Provides: anthy-libs = %%{name}-%%{version}
 
