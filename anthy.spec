@@ -1,8 +1,8 @@
-%define	version	6700b
+%define	version		6801
 
 Name:		anthy
 Version:	%{version}
-Release:	2.fc5
+Release:	1
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Wed Aug 24 2005 Akira TAGOH <tagoh@redhat.com> - 6801-1
+- updates to the snapshot version.
+
 * Tue Aug  9 2005 Akira TAGOH <tagoh@redhat.com>
 - added dist tag in Release.
 
