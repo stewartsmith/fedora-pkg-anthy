@@ -1,4 +1,4 @@
-%define	version		6801
+%define	version		6829
 
 Name:		anthy
 Version:	%{version}
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Aug 30 2005 Akira TAGOH <tagoh@redhat.com> - 6829-1
+- New upstream snapshot release.
+
 * Wed Aug 24 2005 Akira TAGOH <tagoh@redhat.com> - 6801-1
 - updates to the snapshot version.
 
