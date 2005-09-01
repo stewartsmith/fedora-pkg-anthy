@@ -1,8 +1,9 @@
 %define	version		6829
+%define	zipcode_ver	20050831
 
 Name:		anthy
 Version:	%{version}
-Release:	1
+Release:	2
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -11,6 +12,9 @@ BuildRequires:	emacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
+Source2:	zipcode-%{zipcode_ver}.tar.bz2
+
+Patch0:		anthy-add-placename-dict.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -49,7 +53,9 @@ character set on Emacs.
 #character set on XEmacs.
 
 %prep
-%setup -q
+%setup -q -a 2
+%patch0 -p1 -b .placename-dict
+cp zipcode-%{zipcode_ver}/placename.t mkanthydic/
 
 %build
 %configure
@@ -59,6 +65,9 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 %makeinstall
+
+## for zipcode.t
+install -m 644 zipcode-%{zipcode_ver}/zipcode.t $RPM_BUILD_ROOT%{_datadir}/anthy/
 
 ## for anthy-el
 %__mkdir_p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
@@ -103,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Thu Sep  1 2005 Akira TAGOH <tagoh@redhat.com> - 6829-2
+- Added the place name dictionary.
+
 * Tue Aug 30 2005 Akira TAGOH <tagoh@redhat.com> - 6829-1
 - New upstream snapshot release.
 
