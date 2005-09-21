@@ -1,20 +1,29 @@
 %define	version		6829
 %define	zipcode_ver	20050831
+%{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
 Version:	%{version}
-Release:	2
+Release:	3
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	emacs
-#BuildRequires:	xemacs
+%{?_with_xemacs:BuildRequires:	xemacs}
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Source2:	zipcode-%{zipcode_ver}.tar.bz2
 
 Patch0:		anthy-add-placename-dict.patch
+# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_base.t.diff.zip
+Patch1:		anthy_base.t.diff
+# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd.diff.zip
+Patch2:		anthy_gcanna.ctd.diff
+# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd_20050918.diff.zip
+Patch3:		anthy_gcanna.ctd_20050918.diff
+# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd_20050920.diff.zip
+Patch4:		anthy_gcanna.ctd_20050920.diff
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -43,18 +52,24 @@ Requires:	anthy = %{version}-%{release}
 The anthy-el package contains the emacs lisp to be able to input Japanese
 character set on Emacs.
 
-#%%package	el-xemacs
-#Summary:	Emacs Lisp files to use Anthy on XEmacs
-#Group:		System Environment/Libraries
-#Requires:	xemacs
-#Requires:	anthy = %{version}-%{release}
-#%description	el-xemacs
-#The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
-#character set on XEmacs.
+%if %{build_with_xemacs}
+%package	el-xemacs
+Summary:	Emacs Lisp files to use Anthy on XEmacs
+Group:		System Environment/Libraries
+Requires:	xemacs
+Requires:	anthy = %{version}-%{release}
+%description	el-xemacs
+The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
+character set on XEmacs.
+%endif
 
 %prep
 %setup -q -a 2
 %patch0 -p1 -b .placename-dict
+%patch1 -p0 -b .base.t
+%patch2 -p0 -b .gcanna
+%patch3 -p0 -b .gcanna-20050918
+%patch4 -p0 -b .gcanna-20050920
 cp zipcode-%{zipcode_ver}/placename.t mkanthydic/
 
 %build
@@ -74,13 +89,15 @@ install -m 644 zipcode-%{zipcode_ver}/zipcode.t $RPM_BUILD_ROOT%{_datadir}/anthy
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
 
 ## for anthy-el-xemacs
-#%%__mkdir_p $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
-#install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
-#pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
-#make clean
-#make EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
-#make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
-#popd
+%if %{build_with_xemacs}
+%__mkdir_p $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
+pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
+make clean
+make EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
+make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
+popd
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -106,12 +123,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/emacs/site-lisp/anthy/
 %{_datadir}/emacs/site-lisp/site-start.d/anthy-init.el
 
-#%%files el-xemacs
-#%%defattr (-, root, root)
-#%%{_datadir}/xemacs/xemacs-packages/lisp/anthy/
-#%%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
+%if %{build_with_xemacs}
+%files el-xemacs
+%defattr (-, root, root)
+%{_datadir}/xemacs/xemacs-packages/lisp/anthy/
+%{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
+%endif
 
 %changelog
+* Wed Sep 21 2005 Akira TAGOH <tagoh@redhat.com> - 6829-3
+- applied some patches from anthy-dev mailing list to improve the dictionaries.
+  - anthy_base.t.diff
+  - anthy_gcanna.ctd.diff
+  - anthy_gcanna.ctd_20050918.diff
+  - anthy_gcanna.ctd_20050920.diff
+- parameterize anthy-el-xemacs build.
+
 * Thu Sep  1 2005 Akira TAGOH <tagoh@redhat.com> - 6829-2
 - Added the place name dictionary.
 
