@@ -1,10 +1,10 @@
-%define	version		6829
-%define	zipcode_ver	20050831
+%define	version		7013
+%define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
 Version:	%{version}
-Release:	3
+Release:	1
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -13,17 +13,7 @@ BuildRequires:	emacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
-Source2:	zipcode-%{zipcode_ver}.tar.bz2
-
-Patch0:		anthy-add-placename-dict.patch
-# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_base.t.diff.zip
-Patch1:		anthy_base.t.diff
-# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd.diff.zip
-Patch2:		anthy_gcanna.ctd.diff
-# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd_20050918.diff.zip
-Patch3:		anthy_gcanna.ctd_20050918.diff
-# http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna.ctd_20050920.diff.zip
-Patch4:		anthy_gcanna.ctd_20050920.diff
+Source2:	http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna_ut-%{gcanna_ver}.tar.bz2
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -65,24 +55,16 @@ character set on XEmacs.
 
 %prep
 %setup -q -a 2
-%patch0 -p1 -b .placename-dict
-%patch1 -p0 -b .base.t
-%patch2 -p0 -b .gcanna
-%patch3 -p0 -b .gcanna-20050918
-%patch4 -p0 -b .gcanna-20050920
-cp zipcode-%{zipcode_ver}/placename.t mkanthydic/
 
 %build
 %configure
+cp anthy_gcanna_ut-%{gcanna_ver}/gcanna.ctd cannadic/
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %makeinstall
-
-## for zipcode.t
-install -m 644 zipcode-%{zipcode_ver}/zipcode.t $RPM_BUILD_ROOT%{_datadir}/anthy/
 
 ## for anthy-el
 %__mkdir_p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
@@ -131,6 +113,13 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Oct 13 2005 Akira TAGOH <tagoh@redhat.com> - 7013-1
+- New upstream snapshot release.
+- removed the patches:
+  - anthy-add-placename-dict.patch: isn't needed anymore.
+  - anthy_base.t.diff: merged into upstream.
+  - zipcode-20050831.tar.bz2: merged into upstream.
+
 * Wed Sep 21 2005 Akira TAGOH <tagoh@redhat.com> - 6829-3
 - applied some patches from anthy-dev mailing list to improve the dictionaries.
   - anthy_base.t.diff
