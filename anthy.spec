@@ -4,7 +4,7 @@
 
 Name:		anthy
 Version:	%{version}
-Release:	2
+Release: 2.1
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Thu Nov 10 2005 Akira TAGOH <tagoh@redhat.com> - 7100b-2
 - run ldconfig in %%post and %%postun. (#172768)
 
