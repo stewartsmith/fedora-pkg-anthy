@@ -4,7 +4,7 @@
 
 Name:		anthy
 Version:	%{version}
-Release: 2.1
+Release: 2.2
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 7100b-2.2
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 
