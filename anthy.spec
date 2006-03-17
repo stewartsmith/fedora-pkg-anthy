@@ -1,10 +1,10 @@
-%define	version		7100b
+%define	version		7500
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
 Version:	%{version}
-Release: 2.2.1
+Release:	1
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -14,6 +14,9 @@ BuildRequires:	emacs
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Source2:	http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna_ut-%{gcanna_ver}.tar.bz2
+Patch0:		anthy-2832.patch
+Patch1:		anthy-2834.patch
+Patch2:		anthy-gcanna-nakaguro.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -55,6 +58,9 @@ character set on XEmacs.
 
 %prep
 %setup -q -a 2
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %configure
@@ -117,6 +123,13 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Mar 17 2006 Akira TAGOH <tagoh@redhat.com> 7500-1
+- New upstream release.
+  - larning words works now. (#178764)
+- anthy-2832.patch: patch from upstream that fixes wrong order of candidate list.
+- anthy-2834.patch: patch from upstream that fixes unexpected word segment.
+- anthy-gcanna-nakaguro.patch: added a word to dictionary to convert nakaguro to slash.
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 7100b-2.2.1
 - bump again for double-long bug on ppc(64)
 
