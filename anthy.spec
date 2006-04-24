@@ -1,4 +1,4 @@
-%define	version		7500
+%define	version		7622
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
@@ -14,8 +14,6 @@ BuildRequires:	emacs
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Source2:	http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna_ut-%{gcanna_ver}.tar.bz2
-Patch0:		anthy-2832.patch
-Patch1:		anthy-2834.patch
 Patch2:		anthy-gcanna-nakaguro.patch
 
 Summary:	Japanese character set input library
@@ -58,8 +56,6 @@ character set on XEmacs.
 
 %prep
 %setup -q -a 2
-%patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 %build
@@ -123,6 +119,12 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Apr 24 2006 Akira TAGOH <tagoh@redhat.com> 7622-1
+- New upstream snapshot release.
+  - removed unnecessary patches:
+    - anthy-2832.patch
+    - anthy-2834.patch
+
 * Fri Mar 17 2006 Akira TAGOH <tagoh@redhat.com> 7500-1
 - New upstream release.
   - larning words works now. (#178764)
