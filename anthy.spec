@@ -1,13 +1,13 @@
-%define	version		7622
+%define	version		7710
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
 Version:	%{version}
-Release:	1
+Release:	1.fc6
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
-Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	emacs
 %{?_with_xemacs:BuildRequires:	xemacs}
 
@@ -119,13 +119,16 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Mon Apr 24 2006 Akira TAGOH <tagoh@redhat.com> 7622-1
+* Thu May 11 2006 Akira TAGOH <tagoh@redhat.com> - 7710-1
+- New upstream snapshot release.
+
+* Mon Apr 24 2006 Akira TAGOH <tagoh@redhat.com> - 7622-1
 - New upstream snapshot release.
   - removed unnecessary patches:
     - anthy-2832.patch
     - anthy-2834.patch
 
-* Fri Mar 17 2006 Akira TAGOH <tagoh@redhat.com> 7500-1
+* Fri Mar 17 2006 Akira TAGOH <tagoh@redhat.com> - 7500-1
 - New upstream release.
   - larning words works now. (#178764)
 - anthy-2832.patch: patch from upstream that fixes wrong order of candidate list.
