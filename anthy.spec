@@ -1,4 +1,4 @@
-%define	version		7710
+%define	version		7714
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
@@ -119,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon May 15 2006 Akira TAGOH <tagoh@redhat.com> - 7714-1
+- New upstream snapshot release.
+
 * Thu May 11 2006 Akira TAGOH <tagoh@redhat.com> - 7710-1
 - New upstream snapshot release.
 
