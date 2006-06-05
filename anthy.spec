@@ -8,7 +8,9 @@ Release:	2.fc6
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+%ifnarch ppc64
 BuildRequires:	emacs
+%endif
 %{?_with_xemacs:BuildRequires:	xemacs}
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
