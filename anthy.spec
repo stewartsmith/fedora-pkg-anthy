@@ -34,6 +34,7 @@ Requires:	anthy = %{version}-%{release}
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
 
+%ifnarch ppc64
 %package	el
 Summary:	Emacs Lisp files to use Anthy on Emacs
 Group:		System Environment/Libraries
@@ -42,6 +43,7 @@ Requires:	anthy = %{version}-%{release}
 %description	el
 The anthy-el package contains the emacs lisp to be able to input Japanese
 character set on Emacs.
+%endif
 
 %if %{build_with_xemacs}
 %package	el-xemacs
@@ -68,9 +70,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %makeinstall
 
+%ifnarch ppc64
 ## for anthy-el
 %__mkdir_p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
+%endif
 
 ## for anthy-el-xemacs
 %if %{build_with_xemacs}
@@ -106,10 +110,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.la
 %{_libdir}/pkgconfig
 
+%ifnarch ppc64
 %files el
 %defattr (-, root, root)
 %{_datadir}/emacs/site-lisp/anthy/
 %{_datadir}/emacs/site-lisp/site-start.d/anthy-init.el
+%endif
 
 %if %{build_with_xemacs}
 %files el-xemacs
@@ -119,6 +125,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun  5 2006 Akira TAGOH <tagoh@redhat.com> - 7802-2
+- exclude ppc64 to make anthy-el package. right now emacs.ppc64 isn't provided
+  and buildsys became much stricter.
+
 * Fri Jun  2 2006 Akira TAGOH <tagoh@redhat.com> - 7802-1
 - New upstream snapshot release.
 
