@@ -4,7 +4,7 @@
 
 Name:		anthy
 Version:	%{version}
-Release:	1.fc6
+Release:	2.fc6
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
