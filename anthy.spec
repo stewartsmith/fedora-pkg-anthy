@@ -1,10 +1,10 @@
-%define	version		7802
+%define	version		7811
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
 Version:	%{version}
-Release:	2.fc6
+Release:	1.fc6
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -65,12 +65,12 @@ character set on XEmacs.
 %build
 %configure
 cp anthy_gcanna_ut-%{gcanna_ver}/gcanna.ctd cannadic/
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%makeinstall
+make install DESTDIR=$RPM_BUILD_ROOT
 
 %ifnarch ppc64
 ## for anthy-el
@@ -127,6 +127,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun 12 2006 Akira TAGOH <tagoh@redhat.com> - 7811-1
+- New upstream snapshot release.
+- use make install DESTDIR=... instead of %%makeinstall.
+
 * Mon Jun  5 2006 Akira TAGOH <tagoh@redhat.com> - 7802-2
 - exclude ppc64 to make anthy-el package. right now emacs.ppc64 isn't provided
   and buildsys became much stricter.
