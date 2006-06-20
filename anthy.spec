@@ -1,4 +1,4 @@
-%define	version		7811
+%define	version		7818
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jun 20 2006 Akira TAGOH <tagoh@redhat.com> - 7818-1
+- New upstream snapshot release.
+
 * Mon Jun 12 2006 Akira TAGOH <tagoh@redhat.com> - 7811-1
 - New upstream snapshot release.
 - use make install DESTDIR=... instead of %%makeinstall.
