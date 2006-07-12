@@ -1,13 +1,13 @@
-%define	version		7824
 %define	gcanna_ver	20051002
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	%{version}
-Release:	1.fc6
+Version:	7900
+Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	automake autoconf
 %ifnarch ppc64
 BuildRequires:	emacs
 %endif
@@ -17,6 +17,7 @@ Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Source2:	http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna_ut-%{gcanna_ver}.tar.bz2
 Patch2:		anthy-gcanna-nakaguro.patch
+Patch3:		anthy-7900-fix-undef-non-weak-symbol.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -61,6 +62,10 @@ character set on XEmacs.
 %prep
 %setup -q -a 2
 %patch2 -p1
+%patch3 -p1 -b .non-weak
+# need to regenerate Makefile for patch3
+automake
+autoconf
 
 %build
 %configure
@@ -127,6 +132,12 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Jul 11 2006 Akira TAGOH <tagoh@redhat.com> - 7900-1
+- New upstream release.
+- anthy-7900-fix-undef-non-weak-symbol.patch: fixed the undefined non-weak
+  symbols issue. (#198180)
+- use dist tag.
+
 * Mon Jun 26 2006 Akira TAGOH <tagoh@redhat.com> - 7824-1
 - New upstream snapshot release.
 
