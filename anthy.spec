@@ -3,7 +3,7 @@
 
 Name:		anthy
 Version:	7900
-Release:	1.1%{?dist}
+Release:	2%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -132,7 +132,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - sh: line 0: fg: no job control
+* Fri Aug 11 2006 Akira TAGOH <tagoh@redhat.com> - 7900-2
+- anthy-7900-fix-undef-non-weak-symbol.patch: removed the unnecessary library
+  chain.
+
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 7900-1.1
 - rebuild
 
 * Tue Jul 11 2006 Akira TAGOH <tagoh@redhat.com> - 7900-1
