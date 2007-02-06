@@ -2,8 +2,8 @@
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	7900
-Release:	2%{?dist}
+Version:	8604
+Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -15,9 +15,7 @@ BuildRequires:	emacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
-Source2:	http://www.geocities.jp/ep3797/snapshot/tmp/anthy_gcanna_ut-%{gcanna_ver}.tar.bz2
 Patch2:		anthy-gcanna-nakaguro.patch
-Patch3:		anthy-7900-fix-undef-non-weak-symbol.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -60,22 +58,20 @@ character set on XEmacs.
 %endif
 
 %prep
-%setup -q -a 2
+%setup -q
 %patch2 -p1
-%patch3 -p1 -b .non-weak
-# need to regenerate Makefile for patch3
-automake
-autoconf
 
 %build
-%configure
-cp anthy_gcanna_ut-%{gcanna_ver}/gcanna.ctd cannadic/
+%configure --disable-static
 make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR=$RPM_BUILD_ROOT
+
+# remove unnecessary files
+rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 %ifnarch ppc64
 ## for anthy-el
@@ -113,8 +109,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr (-, root, root)
 %{_includedir}/*
 %{_libdir}/lib*.so
-%{_libdir}/lib*.a
-%{_libdir}/lib*.la
 %{_libdir}/pkgconfig
 
 %ifnarch ppc64
@@ -132,6 +126,12 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb  6 2007 Akira TAGOH <tagoh@redhat.com> - 8604-1
+- New upstream release.
+- no longer needed to regenerate autotools files. (#224146)
+- use original gcanna dict.
+- build with --disable-static.
+
 * Fri Aug 11 2006 Akira TAGOH <tagoh@redhat.com> - 7900-2
 - anthy-7900-fix-undef-non-weak-symbol.patch: removed the unnecessary library
   chain.
