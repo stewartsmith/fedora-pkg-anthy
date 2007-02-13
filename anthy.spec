@@ -2,7 +2,7 @@
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	8604
+Version:	8607
 Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, root)
-%doc AUTHORS COPYING ChangeLog DIARY NEWS README doc
+%doc AUTHORS COPYING ChangeLog DIARY NEWS README
 %{_bindir}/*
 %{_sysconfdir}/*
 %{_libdir}/lib*.so.*
@@ -107,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr (-, root, root)
+%doc doc/DICLIB doc/DICUTIL doc/GLOSSARY doc/GRAMMAR doc/GUIDE.english doc/ILIB doc/LEARNING doc/LIB doc/MISC doc/POS doc/SPLITTER doc/TESTING doc/protocol.txt
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig
@@ -114,6 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %ifnarch ppc64
 %files el
 %defattr (-, root, root)
+%doc doc/ELISP
 %{_datadir}/emacs/site-lisp/anthy/
 %{_datadir}/emacs/site-lisp/site-start.d/anthy-init.el
 %endif
@@ -121,11 +123,16 @@ rm -rf $RPM_BUILD_ROOT
 %if %{build_with_xemacs}
 %files el-xemacs
 %defattr (-, root, root)
+%doc doc/ELISP
 %{_datadir}/xemacs/xemacs-packages/lisp/anthy/
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 %endif
 
 %changelog
+* Tue Feb 13 2007 Akira TAGOH <tagoh@redhat.com> - 8607-1
+- New upstream release.
+- correct doc installation. (#228311)
+
 * Tue Feb  6 2007 Akira TAGOH <tagoh@redhat.com> - 8604-1
 - New upstream release.
 - no longer needed to regenerate autotools files. (#224146)
