@@ -2,7 +2,7 @@
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	8616
+Version:	8622
 Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Feb 26 2007 Akira TAGOH <tagoh@redhat.com> - 8622-1
+- New upstream release.
+
 * Mon Feb 19 2007 Akira TAGOH <tagoh@redhat.com> - 8616-1
 - New upstream release.
 
