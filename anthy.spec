@@ -2,7 +2,7 @@
 %{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	8622
+Version:	8706
 Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
@@ -15,7 +15,6 @@ BuildRequires:	emacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
-Patch2:		anthy-gcanna-nakaguro.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -59,7 +58,6 @@ character set on XEmacs.
 
 %prep
 %setup -q
-%patch2 -p1
 
 %build
 %configure --disable-static
@@ -129,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Mar  9 2007 Akira TAGOH <tagoh@redhat.com> - 8706-1
+- New upstream release.
+
 * Mon Feb 26 2007 Akira TAGOH <tagoh@redhat.com> - 8622-1
 - New upstream release.
 
