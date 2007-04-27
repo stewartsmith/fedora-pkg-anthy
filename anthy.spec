@@ -3,7 +3,7 @@
 
 Name:		anthy
 Version:	8706
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -19,7 +19,7 @@ Source1:	anthy-init.el
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
 Obsoletes:	anthy-libs
-Provides:	anthy-libs = %{name}-%{version}
+Provides:	anthy-libs = %{version}
 %description
 Anthy provides the library to input Japanese on the applications, such as
 X applications and emacs. and the user dictionaries and the users information
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Apr 27 2007 Akira TAGOH <tagoh@redhat.com> - 8706-2
+- Fix wrong Provides line. (#237987)
+
 * Fri Mar  9 2007 Akira TAGOH <tagoh@redhat.com> - 8706-1
 - New upstream release.
 
