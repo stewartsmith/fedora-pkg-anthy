@@ -1,17 +1,14 @@
 %define	gcanna_ver	20051002
-%{expand: %%define build_with_xemacs %{?_with_xemacs:1}%{!?_with_xemacs:0}}
 
 Name:		anthy
-Version:	8706
-Release:	2%{?dist}
+Version:	9006
+Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	automake autoconf
-%ifnarch ppc64
 BuildRequires:	emacs
-%endif
-%{?_with_xemacs:BuildRequires:	xemacs}
+BuildRequires:	xemacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
@@ -34,7 +31,6 @@ Requires:	anthy = %{version}-%{release}
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
 
-%ifnarch ppc64
 %package	el
 Summary:	Emacs Lisp files to use Anthy on Emacs
 Group:		System Environment/Libraries
@@ -43,9 +39,7 @@ Requires:	anthy = %{version}-%{release}
 %description	el
 The anthy-el package contains the emacs lisp to be able to input Japanese
 character set on Emacs.
-%endif
 
-%if %{build_with_xemacs}
 %package	el-xemacs
 Summary:	Emacs Lisp files to use Anthy on XEmacs
 Group:		System Environment/Libraries
@@ -54,7 +48,6 @@ Requires:	anthy = %{version}-%{release}
 %description	el-xemacs
 The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
 character set on XEmacs.
-%endif
 
 %prep
 %setup -q
@@ -71,14 +64,11 @@ make install DESTDIR=$RPM_BUILD_ROOT
 # remove unnecessary files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
-%ifnarch ppc64
 ## for anthy-el
 %__mkdir_p $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/emacs/site-lisp/site-start.d
-%endif
 
 ## for anthy-el-xemacs
-%if %{build_with_xemacs}
 %__mkdir_p $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/xemacs/site-packages/lisp/site-start.d
 pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
@@ -86,7 +76,6 @@ make clean
 make EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
 make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="\${datadir}/xemacs/xemacs-packages/lisp/anthy"
 popd
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -110,23 +99,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig
 
-%ifnarch ppc64
 %files el
 %defattr (-, root, root)
 %doc doc/ELISP
 %{_datadir}/emacs/site-lisp/anthy/
 %{_datadir}/emacs/site-lisp/site-start.d/anthy-init.el
-%endif
 
-%if %{build_with_xemacs}
 %files el-xemacs
 %defattr (-, root, root)
 %doc doc/ELISP
 %{_datadir}/xemacs/xemacs-packages/lisp/anthy/
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
-%endif
 
 %changelog
+* Fri Jun  8 2007 Akira TAGOH <tagoh@redhat.com> - 9006-1
+- New upstream release.
+- Get back the anthy-el-xemacs package. (#243078)
+
 * Fri Apr 27 2007 Akira TAGOH <tagoh@redhat.com> - 8706-2
 - Fix wrong Provides line. (#237987)
 
