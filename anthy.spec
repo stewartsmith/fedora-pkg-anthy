@@ -1,7 +1,7 @@
 %define	gcanna_ver	20051002
 
 Name:		anthy
-Version:	9006
+Version:	9100
 Release:	1%{?dist}
 License:	GPL
 URL:		http://sourceforge.jp/projects/anthy/
@@ -112,6 +112,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Jul  3 2007 Akira TAGOH <tagoh@redhat.com> - 9100-1
+- New upstream release.
+
+* Wed Jun 13 2007 Akira TAGOH <tagoh@redhat.com> - 9011-1
+- New upstream release
+
 * Fri Jun  8 2007 Akira TAGOH <tagoh@redhat.com> - 9006-1
 - New upstream release.
 - Get back the anthy-el-xemacs package. (#243078)
