@@ -1,9 +1,10 @@
-%define	gcanna_ver	20051002
+%define		altcannadicver	070805
 
 Name:		anthy
 Version:	9100
-Release:	1%{?dist}
-License:	GPL
+Release:	2%{?dist}
+# The entire source code is LGPLv2+ and dictionaries is GPLv2.
+License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	automake autoconf
@@ -12,6 +13,8 @@ BuildRequires:	xemacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/9723/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
+Source2:	http://prdownloads.sourceforge.jp/alt-cannadic/26595/alt-cannadic-%{altcannadicver}.tar.bz2
+Patch0:		anthy-enable-dict-gtankan.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -50,7 +53,9 @@ The anthy-el-xemacs package contains the emacs lisp to be able to input Japanese
 character set on XEmacs.
 
 %prep
-%setup -q
+%setup -q -a 2
+%patch0 -p1 -b .gtankan
+cp alt-cannadic-%{altcannadicver}/* alt-cannadic/
 
 %build
 %configure --disable-static
@@ -112,6 +117,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Wed Aug  8 2007 Akira TAGOH <tagoh@redhat.com> - 9100-2
+- Update alt-cannadic to 070805.
+- Use gtankan.ctd instead of tankanji.t.
+- Update License tag.
+
 * Tue Jul  3 2007 Akira TAGOH <tagoh@redhat.com> - 9100-1
 - New upstream release.
 
