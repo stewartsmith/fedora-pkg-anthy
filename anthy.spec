@@ -2,7 +2,7 @@
 
 Name:		anthy
 Version:	9100
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Thu Aug 23 2007 Akira TAGOH <tagoh@redhat.com> - 9100-3
+- Rebuild
+
 * Wed Aug  8 2007 Akira TAGOH <tagoh@redhat.com> - 9100-2
 - Update alt-cannadic to 070805.
 - Use gtankan.ctd instead of tankanji.t.
