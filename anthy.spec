@@ -1,8 +1,8 @@
 %define		altcannadicver	070805
 
 Name:		anthy
-Version:	9100
-Release:	3%{?dist}
+Version:	9100b
+Release:	1%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -117,6 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Sep 18 2007 Akira TAGOH <tagoh@redhat.com> - 9100b-1
+- New upstream release.
+
 * Thu Aug 23 2007 Akira TAGOH <tagoh@redhat.com> - 9100-3
 - Rebuild
 
