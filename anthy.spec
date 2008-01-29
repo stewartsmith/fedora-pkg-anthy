@@ -1,7 +1,5 @@
-%define		altcannadicver	070805
-
 Name:		anthy
-Version:	9100d
+Version:	9100e
 Release:	1%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
@@ -11,9 +9,8 @@ BuildRequires:	automake autoconf
 BuildRequires:	emacs
 BuildRequires:	xemacs
 
-Source0:	http://prdownloads.sourceforge.jp/anthy/27771/anthy-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.jp/anthy/29142/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
-#Source2:	http://prdownloads.sourceforge.jp/alt-cannadic/26595/alt-cannadic-%{altcannadicver}.tar.bz2
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -115,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Jan 29 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-1
+- New upstream release.
+
 * Mon Oct 29 2007 Akira TAGOH <tagoh@redhat.com> - 9100d-1
 - New upstream release.
 - anthy-enable-dict-gtankan.patch: removed. no need to be applied anymore.
