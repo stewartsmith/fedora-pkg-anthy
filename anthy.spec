@@ -1,6 +1,6 @@
 Name:		anthy
 Version:	9100e
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Tue Feb 12 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-2
+- Rebuild for gcc-4.3.
+
 * Tue Jan 29 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-1
 - New upstream release.
 
