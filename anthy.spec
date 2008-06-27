@@ -1,6 +1,6 @@
 Name:		anthy
 Version:	9100e
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
