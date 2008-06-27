@@ -11,6 +11,7 @@ BuildRequires:	xemacs
 
 Source0:	http://prdownloads.sourceforge.jp/anthy/29142/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
+Patch0:		anthy-9100e-fix-segfault-vu.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -50,6 +51,7 @@ character set on XEmacs.
 
 %prep
 %setup -q #-a 2
+%patch0 -p1 -b 0-vu
 #cp alt-cannadic-%{altcannadicver}/* alt-cannadic/
 
 %build
@@ -112,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Fri Jun 27 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-3
+- Fix a segfault with some words containing vu. (#452779)
+
 * Tue Feb 12 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-2
 - Rebuild for gcc-4.3.
 
