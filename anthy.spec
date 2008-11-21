@@ -1,6 +1,6 @@
 Name:		anthy
 Version:	9100e
-Release:	3%{?dist}
+Release:	4%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -9,7 +9,7 @@ BuildRequires:	automake autoconf
 BuildRequires:	emacs
 BuildRequires:	xemacs
 
-Source0:	http://prdownloads.sourceforge.jp/anthy/29142/anthy-%{version}.tar.gz
+Source0:	http://osdn.dl.sourceforge.jp/anthy/29142/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Patch0:		anthy-9100e-fix-segfault-vu.patch
 
@@ -114,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xemacs/site-packages/lisp/site-start.d/anthy-init.el
 
 %changelog
+* Fri Nov 21 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-4
+- Fix a source URL.
+
 * Fri Jun 27 2008 Akira TAGOH <tagoh@redhat.com> - 9100e-3
 - Fix a segfault with some words containing vu. (#452779)
 
