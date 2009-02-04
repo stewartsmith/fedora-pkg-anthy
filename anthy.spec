@@ -164,7 +164,7 @@ gen_dict_args
 %configure --disable-static
 # fix rpath issue
 sed -ie 's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/' libtool
-make %{?_smp_mflags}
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
