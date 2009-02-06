@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100g
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -33,6 +33,7 @@ BuildRequires:	xemacs
 
 Source0:	http://osdn.dl.sourceforge.jp/anthy/37336/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
+Patch0:		anthy-9100g-fix-compound-t.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -99,6 +100,7 @@ package to use Anthy with XEmacs.
 
 %prep
 %setup -q #-a 2
+%patch0 -p1 -b .0-compound-t
 #cp alt-cannadic-%{altcannadicver}/* alt-cannadic/
 
 %if	%{use_utf8_dict}
@@ -149,10 +151,7 @@ touch -r $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in{-orig,}
 	done
 );(
 	cd mkworddic
-	# getting rid of broken word in name.t
-	cp -a name.t name.t-broken
-	grep -v $(echo "とうしょうへい" | iconv -f utf-8 -t euc-jp) name.t-broken > name.t
-	for i in adjust.t base.t compound.t extra.t name.t tankanji.t udict zipcode.t; do
+	for i in adjust.t compound.t extra.t udict zipcode.t; do
 		dict_conv $i
 	done
 )
@@ -233,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb  6 2009 Akira TAGOH <tagoh@redhat.com> - 9100g-2
+- Apply a patch reported upstream to fix dictionary's indexing.
+
 * Wed Feb  4 2009 Akira TAGOH <tagoh@redhat.com> - 9100g-1
 - New upstream release.
 - convert all words in dictionaries to UTF-8.
