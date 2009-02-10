@@ -22,8 +22,8 @@
 %endif
 
 Name:		anthy
-Version:	9100g
-Release:	2%{?dist}
+Version:	9100h
+Release:	1%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -33,7 +33,6 @@ BuildRequires:	xemacs
 
 Source0:	http://osdn.dl.sourceforge.jp/anthy/37336/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
-Patch0:		anthy-9100g-fix-compound-t.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -100,8 +99,6 @@ package to use Anthy with XEmacs.
 
 %prep
 %setup -q #-a 2
-%patch0 -p1 -b .0-compound-t
-#cp alt-cannadic-%{altcannadicver}/* alt-cannadic/
 
 %if	%{use_utf8_dict}
 function normalize_extra_dict() {
@@ -232,6 +229,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 10 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-1
+- New upstream release.
+
 * Fri Feb  6 2009 Akira TAGOH <tagoh@redhat.com> - 9100g-2
 - Apply a patch reported upstream to fix dictionary's indexing.
 
