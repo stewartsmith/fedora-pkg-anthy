@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -48,6 +48,7 @@ So Anthy is secure than other conversion server.
 Summary:	Header files and library for developing programs which uses Anthy
 Group:		Development/Libraries
 Requires:	anthy = %{version}-%{release}
+Requires:	pkgconfig
 %description	devel
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
@@ -203,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/DICLIB doc/DICUTIL doc/GLOSSARY doc/GRAMMAR doc/GUIDE.english doc/ILIB doc/LEARNING doc/LIB doc/MISC doc/POS doc/SPLITTER doc/TESTING doc/protocol.txt
 %{_includedir}/*
 %{_libdir}/lib*.so
-%{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*.pc
 
 %files -n emacs-%{pkg}
 %defattr(-, root, root, -)
@@ -229,6 +230,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 11 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-3
+- Take off the ownership of %%{_libdir}/pkgconfig. (#499663)
+- Add R: pkgconfig to -devel.
+
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
