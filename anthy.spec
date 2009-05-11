@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	3%{?dist}
+Release:	4%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -230,7 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon May 11 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-3
+* Mon May 11 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-4
 - Take off the ownership of %%{_libdir}/pkgconfig. (#499663)
 - Add R: pkgconfig to -devel.
 
