@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	4%{?dist}
+Release:	5%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -33,6 +33,7 @@ BuildRequires:	xemacs
 
 Source0:	http://osdn.dl.sourceforge.jp/anthy/37336/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
+Patch0:		anthy-fix-typo-in-dict.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -100,6 +101,7 @@ package to use Anthy with XEmacs.
 
 %prep
 %setup -q #-a 2
+%patch0 -p1 -b .0-typo
 
 %if	%{use_utf8_dict}
 function normalize_extra_dict() {
@@ -126,7 +128,6 @@ read @top_srcdir@/alt-cannadic/extra/gf-fuzoku-34.t.norm
 read @top_srcdir@/mkworddic/adjust.t.utf8
 read @top_srcdir@/mkworddic/compound.t.utf8
 read @top_srcdir@/mkworddic/extra.t.utf8
-read @top_srcdir@/mkworddic/utf8.t
 read @top_srcdir@/alt-cannadic/g_fname.t
 #
 build_reverse_dict
@@ -162,6 +163,11 @@ gen_dict_args
 # fix rpath issue
 sed -ie 's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/' libtool
 LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags}
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params0
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
+LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -230,6 +236,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul  8 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-5
+- Update the corpus.
+- Fix typos in dictionary. (#509534)
+
 * Mon May 11 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-4
 - Take off the ownership of %%{_libdir}/pkgconfig. (#499663)
 - Add R: pkgconfig to -devel.
