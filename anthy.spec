@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	5%{?dist}
+Release:	6%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -236,6 +236,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Wed Jul  8 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-5
 - Update the corpus.
 - Fix typos in dictionary. (#509534)
