@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	7%{?dist}
+Release:	8%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 28 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-8
+- Fix more typos in dictionary. (#519769)
+
 * Thu Aug 20 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-7
 - Stop updating corpus at the build time to avoid creating different dictionary
   among arch. (#816563)
