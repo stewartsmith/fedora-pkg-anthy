@@ -23,13 +23,15 @@
 
 Name:		anthy
 Version:	9100h
-Release:	8%{?dist}
+Release:	9%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	emacs emacs-el
+%if 0%{?rhel} == 0
 BuildRequires:	xemacs
+%endif
 
 Source0:	http://osdn.dl.sourceforge.jp/anthy/37336/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
@@ -77,6 +79,7 @@ This package contains the elisp source files for Anthy under GNU Emacs. You
 do not need to install this package to run Anthy. Install the emacs-%{pkg}
 package to use Anthy with GNU Emacs.
 
+%if 0%{?rhel} == 0
 %package -n	xemacs-%{pkg}
 Summary:	Compiled elisp files to run Anthy under XEmacs
 Group:		System Environment/Libraries
@@ -98,6 +101,7 @@ Requires:	xemacs-%{pkg} = %{version}-%{release}
 This package contains the elisp source files for Anthy under XEmacs. You do
 not need to install this package to run Anthy. Install the xemacs-%{pkg}
 package to use Anthy with XEmacs.
+%endif
 
 
 %prep
@@ -183,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
 %__mkdir_p $RPM_BUILD_ROOT%{emacs_startdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{emacs_startdir}
 
+%if 0%{?rhel} == 0
 ## for xemacs-anthy
 %__mkdir_p $RPM_BUILD_ROOT%{xemacs_startdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{xemacs_startdir}
@@ -191,6 +196,7 @@ make clean
 make EMACS=xemacs lispdir="%{xemacs_lispdir}/%{pkg}"
 make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{xemacs_lispdir}/%{pkg}"
 popd
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -225,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root, -)
 %{emacs_lispdir}/%{pkg}/*.el
 
+%if 0%{?rhel} == 0
 %files -n xemacs-%{pkg}
 %defattr(-, root, root, -)
 %doc doc/ELISP
@@ -235,9 +242,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n xemacs-%{pkg}-el
 %defattr(-, root, root, -)
 %{xemacs_lispdir}/%{pkg}/*.el
-
+%endif
 
 %changelog
+* Thu Sep  3 2009 Dennis Gregorovic <dgregor@redhat.com> - 9100h-9
+- Do not build against xemacs on RHEL
+
 * Fri Aug 28 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-8
 - Fix more typos in dictionary. (#519769)
 
