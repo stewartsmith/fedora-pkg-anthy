@@ -23,7 +23,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	9%{?dist}
+Release:	10%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -33,7 +33,7 @@ BuildRequires:	emacs emacs-el
 BuildRequires:	xemacs
 %endif
 
-Source0:	http://osdn.dl.sourceforge.jp/anthy/37336/anthy-%{version}.tar.gz
+Source0:	http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Patch0:		anthy-fix-typo-in-dict.patch
 Patch1:		anthy-corpus.patch
@@ -245,6 +245,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Dec 21 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-10
+- Fix more typos in dictionary. (#548078)
+- correct the source URL.
+
 * Thu Sep  3 2009 Dennis Gregorovic <dgregor@redhat.com> - 9100h-9
 - Do not build against xemacs on RHEL
 
