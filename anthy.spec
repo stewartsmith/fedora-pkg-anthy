@@ -1,34 +1,14 @@
 %define	use_utf8_dict	1
 %define	pkg		anthy
 
-%if %($(pkg-config emacs); echo $?)
-%define	emacs_version	22.1
-%define	emacs_lispdir	%{_datadir}/emacs/site-lisp
-%define	emacs_startdir	%{_datadir}/emacs/site-lisp/site-start.d
-%else
-%define	emacs_version	%(pkg-config emacs --modversion)
-%define	emacs_lispdir	%(pkg-config emacs --variable sitepkglispdir)
-%define	emacs_startdir	%(pkg-config emacs --variable sitestartdir)
-%endif
-
-%if %($(pkg-config xemacs); echo $?)
-%define	xemacs_version	21.5
-%define	xemacs_lispdir	%{_datadir}/xemacs/site-packages
-%define	xemacs_startdir	%{_datadir}/emacs/site-packages/site-start.d
-%else
-%define	xemacs_version	%(pkg-config xemacs --modversion)
-%define	xemacs_lispdir	%(pkg-config xemacs --variable sitepkglispdir)
-%define	xemacs_startdir	%(pkg-config xemacs --variable sitestartdir)
-%endif
-
 Name:		anthy
 Version:	9100h
-Release:	10%{?dist}
+Release:	11%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	emacs emacs-el
+BuildRequires:	emacs
 %if 0%{?rhel} == 0
 BuildRequires:	xemacs
 %endif
@@ -60,7 +40,7 @@ the programs which uses Anthy.
 %package -n	emacs-%{pkg}
 Summary:	Compiled elisp files to run Anthy under GNU Emacs
 Group:		System Environment/Libraries
-Requires:	emacs(bin) >= %{emacs_version}
+Requires:	emacs(bin) >= %{_emacs_version}
 Requires:	anthy = %{version}-%{release}
 Obsoletes:	anthy-el < 9100g-1
 Provides:	anthy-el = %{version}-%{release}
@@ -83,7 +63,7 @@ package to use Anthy with GNU Emacs.
 %package -n	xemacs-%{pkg}
 Summary:	Compiled elisp files to run Anthy under XEmacs
 Group:		System Environment/Libraries
-Requires:	xemacs(bin) >= %{xemacs_version}
+Requires:	xemacs(bin) >= %{_xemacs_version}
 Requires:	anthy = %{version}-%{release}
 Obsoletes:	anthy-el-xemacs < 9100g-1
 Provides:	anthy-el-xemacs = %{version}-%{release}
@@ -184,17 +164,17 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
 
 ## for emacs-anthy
-%__mkdir_p $RPM_BUILD_ROOT%{emacs_startdir}
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{emacs_startdir}
+%__mkdir_p $RPM_BUILD_ROOT%{_emacs_sitestartdir}
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 
 %if 0%{?rhel} == 0
 ## for xemacs-anthy
-%__mkdir_p $RPM_BUILD_ROOT%{xemacs_startdir}
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{xemacs_startdir}
+%__mkdir_p $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
 pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
 make clean
-make EMACS=xemacs lispdir="%{xemacs_lispdir}/%{pkg}"
-make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{xemacs_lispdir}/%{pkg}"
+make EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
+make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
 popd
 %endif
 
@@ -223,28 +203,31 @@ rm -rf $RPM_BUILD_ROOT
 %files -n emacs-%{pkg}
 %defattr(-, root, root, -)
 %doc doc/ELISP
-%{emacs_lispdir}/%{pkg}/*.elc
-%{emacs_startdir}/*.el
-%dir %{emacs_lispdir}/%{pkg}
+%{_emacs_sitelispdir}/%{pkg}/*.elc
+%{_emacs_sitestartdir}/*.el
+%dir %{_emacs_sitelispdir}/%{pkg}
 
 %files -n emacs-%{pkg}-el
 %defattr(-, root, root, -)
-%{emacs_lispdir}/%{pkg}/*.el
+%{_emacs_sitelispdir}/%{pkg}/*.el
 
 %if 0%{?rhel} == 0
 %files -n xemacs-%{pkg}
 %defattr(-, root, root, -)
 %doc doc/ELISP
-%{xemacs_lispdir}/%{pkg}/*.elc
-%{xemacs_startdir}/*.el
-%dir %{xemacs_lispdir}/%{pkg}
+%{_xemacs_sitelispdir}/%{pkg}/*.elc
+%{_xemacs_sitestartdir}/*.el
+%dir %{_xemacs_sitelispdir}/%{pkg}
 
 %files -n xemacs-%{pkg}-el
 %defattr(-, root, root, -)
-%{xemacs_lispdir}/%{pkg}/*.el
+%{_xemacs_sitelispdir}/%{pkg}/*.el
 %endif
 
 %changelog
+* Sun Mar 14 2010 Jonathan G. Underwood <jonathan.underwood@gmail.com> - 9100h-11
+- Update spec file to comply with Emacs add-on packaging guidelines (#573449)
+
 * Mon Dec 21 2009 Akira TAGOH <tagoh@redhat.com> - 9100h-10
 - Fix more typos in dictionary. (#548078)
 - correct the source URL.
