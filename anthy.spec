@@ -3,7 +3,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	11%{?dist}
+Release:	12%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -16,7 +16,8 @@ BuildRequires:	xemacs
 Source0:	http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
 Source1:	anthy-init.el
 Patch0:		anthy-fix-typo-in-dict.patch
-Patch1:		anthy-corpus.patch
+Patch1:		anthy-fix-typo-in-dict-name.patch
+Patch10:	anthy-corpus.patch
 
 Summary:	Japanese character set input library
 Group:		System Environment/Libraries
@@ -87,7 +88,8 @@ package to use Anthy with XEmacs.
 %prep
 %setup -q #-a 2
 %patch0 -p1 -b .0-typo
-%patch1 -p1 -b .1-corpus
+%patch1 -p1 -b .1-typo-name
+%patch10 -p1 -b .10-corpus
 
 %if	%{use_utf8_dict}
 function normalize_extra_dict() {
@@ -225,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon May 10 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-12
+- Fix a typo in g_fname.t. (#584614)
+
 * Mon Mar 15 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-11
 - enable UTF-8 dictionaries really.
 
