@@ -3,7 +3,7 @@
 
 Name:		anthy
 Version:	9100h
-Release:	12%{?dist}
+Release:	13%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License:	LGPLv2+ and GPLv2
 URL:		http://sourceforge.jp/projects/anthy/
@@ -45,6 +45,7 @@ Requires:	emacs(bin) >= %{_emacs_version}
 Requires:	anthy = %{version}-%{release}
 Obsoletes:	anthy-el < 9100g-1
 Provides:	anthy-el = %{version}-%{release}
+BuildArch:	noarch
 
 %description -n	emacs-%{pkg}
 This package contains the byte compiled elisp packages to run Anthy with GNU
@@ -54,6 +55,7 @@ Emacs.
 Summary:	Elisp source files for Anthy under GNU Emacs
 Group:		System Environment/Libraries
 Requires:	emacs-%{pkg} = %{version}-%{release}
+BuildArch:	noarch
 
 %description -n	emacs-%{pkg}-el
 This package contains the elisp source files for Anthy under GNU Emacs. You
@@ -68,6 +70,7 @@ Requires:	xemacs(bin) >= %{_xemacs_version}
 Requires:	anthy = %{version}-%{release}
 Obsoletes:	anthy-el-xemacs < 9100g-1
 Provides:	anthy-el-xemacs = %{version}-%{release}
+BuildArch:	noarch
 
 %description -n	xemacs-%{pkg}
 This package contains the byte compiled elisp packages to use Anthy with
@@ -77,6 +80,7 @@ XEmacs.
 Summary:	Elisp source files for Anthy under XEmacs
 Group:		System Environment/Libraries
 Requires:	xemacs-%{pkg} = %{version}-%{release}
+BuildArch:	noarch
 
 %description -n	xemacs-%{pkg}-el
 This package contains the elisp source files for Anthy under XEmacs. You do
@@ -227,6 +231,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jun 24 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-13
+- build emacs-* packages as noarch.
+
 * Mon May 10 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-12
 - Fix a typo in g_fname.t. (#584614)
 
