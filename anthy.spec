@@ -1,88 +1,83 @@
-%define	use_utf8_dict	1
-%define	pkg		anthy
+%define use_utf8_dict 1
+%define pkg  anthy
 
-Name:		anthy
-Version:	9100h
-Release:	13%{?dist}
+Name:  anthy
+Version: 9100h
+Release: 14%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
-License:	LGPLv2+ and GPLv2
-URL:		http://sourceforge.jp/projects/anthy/
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	emacs
+License: LGPLv2+ and GPLv2
+URL:  http://sourceforge.jp/projects/anthy/
+BuildRequires: emacs
 %if 0%{?rhel} == 0
-BuildRequires:	xemacs
+BuildRequires: xemacs
 %endif
 
-Source0:	http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
-Source1:	anthy-init.el
-Patch0:		anthy-fix-typo-in-dict.patch
-Patch1:		anthy-fix-typo-in-dict-name.patch
-Patch10:	anthy-corpus.patch
+Source0: http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
+Source1: anthy-init.el
+Patch0:  anthy-fix-typo-in-dict.patch
+Patch1:  anthy-fix-typo-in-dict-name.patch
+Patch10: anthy-corpus.patch
 
-Summary:	Japanese character set input library
-Group:		System Environment/Libraries
-Obsoletes:	anthy-libs
-Provides:	anthy-libs = %{version}
+Summary: Japanese character set input library
+Group:  System Environment/Libraries
+
 %description
 Anthy provides the library to input Japanese on the applications, such as
 X applications and emacs. and the user dictionaries and the users information
 which is used for the conversion, is stored into their own home directory.
 So Anthy is secure than other conversion server.
 
-%package	devel
-Summary:	Header files and library for developing programs which uses Anthy
-Group:		Development/Libraries
-Requires:	anthy = %{version}-%{release}
-Requires:	pkgconfig
-%description	devel
+%package devel
+Summary: Header files and library for developing programs which uses Anthy
+Group:  Development/Libraries
+Requires: anthy = %{version}-%{release}
+Requires: pkgconfig
+
+%description devel
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
 
-%package -n	emacs-%{pkg}
-Summary:	Compiled elisp files to run Anthy under GNU Emacs
-Group:		System Environment/Libraries
-Requires:	emacs(bin) >= %{_emacs_version}
-Requires:	anthy = %{version}-%{release}
-Obsoletes:	anthy-el < 9100g-1
-Provides:	anthy-el = %{version}-%{release}
-BuildArch:	noarch
+%package -n emacs-%{pkg}
+Summary: Compiled elisp files to run Anthy under GNU Emacs
+Group:  System Environment/Libraries
+Requires: emacs(bin) >= %{_emacs_version}
+Requires: anthy = %{version}-%{release}
+BuildArch: noarch
 
-%description -n	emacs-%{pkg}
+%description -n emacs-%{pkg}
 This package contains the byte compiled elisp packages to run Anthy with GNU
 Emacs.
 
-%package -n	emacs-%{pkg}-el
-Summary:	Elisp source files for Anthy under GNU Emacs
-Group:		System Environment/Libraries
-Requires:	emacs-%{pkg} = %{version}-%{release}
-BuildArch:	noarch
+%package -n emacs-%{pkg}-el
+Summary: Elisp source files for Anthy under GNU Emacs
+Group:  System Environment/Libraries
+Requires: emacs-%{pkg} = %{version}-%{release}
+BuildArch: noarch
 
-%description -n	emacs-%{pkg}-el
+%description -n emacs-%{pkg}-el
 This package contains the elisp source files for Anthy under GNU Emacs. You
 do not need to install this package to run Anthy. Install the emacs-%{pkg}
 package to use Anthy with GNU Emacs.
 
 %if 0%{?rhel} == 0
-%package -n	xemacs-%{pkg}
-Summary:	Compiled elisp files to run Anthy under XEmacs
-Group:		System Environment/Libraries
-Requires:	xemacs(bin) >= %{_xemacs_version}
-Requires:	anthy = %{version}-%{release}
-Obsoletes:	anthy-el-xemacs < 9100g-1
-Provides:	anthy-el-xemacs = %{version}-%{release}
-BuildArch:	noarch
+%package -n xemacs-%{pkg}
+Summary: Compiled elisp files to run Anthy under XEmacs
+Group:  System Environment/Libraries
+Requires: xemacs(bin) >= %{_xemacs_version}
+Requires: anthy = %{version}-%{release}
+BuildArch: noarch
 
-%description -n	xemacs-%{pkg}
+%description -n xemacs-%{pkg}
 This package contains the byte compiled elisp packages to use Anthy with
 XEmacs.
 
-%package -n	xemacs-%{pkg}-el
-Summary:	Elisp source files for Anthy under XEmacs
-Group:		System Environment/Libraries
-Requires:	xemacs-%{pkg} = %{version}-%{release}
-BuildArch:	noarch
+%package -n xemacs-%{pkg}-el
+Summary: Elisp source files for Anthy under XEmacs
+Group:  System Environment/Libraries
+Requires: xemacs-%{pkg} = %{version}-%{release}
+BuildArch: noarch
 
-%description -n	xemacs-%{pkg}-el
+%description -n xemacs-%{pkg}-el
 This package contains the elisp source files for Anthy under XEmacs. You do
 not need to install this package to run Anthy. Install the xemacs-%{pkg}
 package to use Anthy with XEmacs.
@@ -95,18 +90,25 @@ package to use Anthy with XEmacs.
 %patch1 -p1 -b .1-typo-name
 %patch10 -p1 -b .10-corpus
 
-%if	%{use_utf8_dict}
+# Convert to utf-8
+for file in ChangeLog doc/protocol.txt; do
+    iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
+    touch -r $file $file.new && \
+    mv $file.new $file
+done
+
+%if %{use_utf8_dict}
 function normalize_extra_dict() {
-	sed -e 's/^\([^ 	]*\)t[ 	]*\(#[A-Z0-9\*]*\)[ 	]*\([^ 	]*\)$/\1 \2 \3/g' $1 > $1.norm
+ sed -e 's/^\([^  ]*\)t[  ]*\(#[A-Z0-9\*]*\)[  ]*\([^  ]*\)$/\1 \2 \3/g' $1 > $1.norm
 }
 function dict_conv() {
-	iconv -f euc-jp -t utf-8 $1 > $1.utf8
+ iconv -f euc-jp -t utf-8 $1 > $1.utf8
 }
 function gen_dict_args() {
-	if ! test -f $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in-orig; then
-		cp -a $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in{,-orig}
-	fi
-	cat <<_EOF_ > $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in
+ if ! test -f $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in-orig; then
+  cp -a $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in{,-orig}
+ fi
+ cat <<_EOF_ > $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in
 # Generated by rpm script
 set_input_encoding utf8
 read @top_srcdir@/alt-cannadic/gcanna.ctd.utf8
@@ -132,19 +134,19 @@ touch -r $RPM_BUILD_DIR/%{name}-%{version}/mkworddic/dict.args.in{-orig,}
 }
 
 (
-	cd alt-cannadic
-	for i in gcanna.ctd gcannaf.ctd gtankan.ctd; do
-		dict_conv $i
-	done
-	cd extra
-	for i in g-jiritu-34.t gc-fullname-34.t gf-fuzoku-34.t gt-tankanji_hikanji-34.t gt-tankanji_kanji-34.t; do
-		normalize_extra_dict $i
-	done
+ cd alt-cannadic
+ for i in gcanna.ctd gcannaf.ctd gtankan.ctd; do
+  dict_conv $i
+ done
+ cd extra
+ for i in g-jiritu-34.t gc-fullname-34.t gf-fuzoku-34.t gt-tankanji_hikanji-34.t gt-tankanji_kanji-34.t; do
+  normalize_extra_dict $i
+ done
 );(
-	cd mkworddic
-	for i in adjust.t compound.t extra.t udict zipcode.t; do
-		dict_conv $i
-	done
+ cd mkworddic
+ for i in adjust.t compound.t extra.t udict zipcode.t; do
+  dict_conv $i
+ done
 )
 gen_dict_args
 %endif
@@ -155,16 +157,9 @@ gen_dict_args
 # fix rpath issue
 sed -ie 's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/' libtool
 LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags}
-#LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params0
-#LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params
-#LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
-#LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
-#LD_LIBRARY_PATH=$RPM_BUILD_DIR/%{name}-%{version}/src-main/.libs:$RPM_BUILD_DIR/%{name}-%{version}/src-worddic/.libs make %{?_smp_mflags} update_params2
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 # remove unnecessary files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
@@ -183,9 +178,6 @@ make EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
 make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
 popd
 %endif
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 
@@ -231,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Sep 27 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-14
+- spec file clean up (Parag AN, #552855)
+
 * Thu Jun 24 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-13
 - build emacs-* packages as noarch.
 
