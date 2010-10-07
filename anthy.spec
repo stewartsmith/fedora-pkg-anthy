@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 14%{?dist}
+Release: 15%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2.
 License: LGPLv2+ and GPLv2
 URL:  http://sourceforge.jp/projects/anthy/
@@ -223,6 +223,9 @@ popd
 %endif
 
 %changelog
+* Thu Oct  7 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-15
+- Fix a typo in the dictionary. (#629908)
+
 * Mon Sep 27 2010 Akira TAGOH <tagoh@redhat.com> - 9100h-14
 - spec file clean up (Parag AN, #552855)
 
