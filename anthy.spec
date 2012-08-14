@@ -3,9 +3,9 @@
 
 Name:  anthy
 Version: 9100h
-Release: 18%{?dist}
-# The entire source code is LGPLv2+ and dictionaries is GPLv2.
-License: LGPLv2+ and GPLv2
+Release: 19%{?dist}
+# The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
+License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
 BuildRequires: emacs
 %if 0%{?rhel} == 0
@@ -223,6 +223,9 @@ popd
 %endif
 
 %changelog
+* Tue Aug 14 2012 Akira TAGOH <tagoh@redhat.com> - 9100h-19
+- Update License tag.
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
