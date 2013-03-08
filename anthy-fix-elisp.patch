@@ -1,0 +1,12 @@
+diff -pruN anthy-9100h.orig/src-util/anthy.el anthy-9100h/src-util/anthy.el
+--- anthy-9100h.orig/src-util/anthy.el	2008-11-29 21:46:00.000000000 +0900
++++ anthy-9100h/src-util/anthy.el	2013-03-08 18:49:51.000000000 +0900
+@@ -892,7 +892,7 @@
+ 	 ((event-matches-key-specifier-p event 'backspace) 8)
+ 	 (t
+ 	  (char-to-int (event-to-character event)))))
+-    last-command-char))
++    last-command-event))
+ 
+ ;;
+ ;;

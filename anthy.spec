@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 20%{?dist}
+Release: 21%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -17,6 +17,7 @@ Source1: anthy-init.el
 Patch0:  anthy-fix-typo-in-dict.patch
 Patch1:  anthy-fix-typo-in-dict-name.patch
 Patch10: anthy-corpus.patch
+Patch11: anthy-fix-elisp.patch
 
 Summary: Japanese character set input library
 Group:  System Environment/Libraries
@@ -89,6 +90,7 @@ package to use Anthy with XEmacs.
 %patch0 -p1 -b .0-typo
 %patch1 -p1 -b .1-typo-name
 %patch10 -p1 -b .10-corpus
+%patch11 -p1 -b .11-elisp
 
 # Convert to utf-8
 for file in ChangeLog doc/protocol.txt; do
@@ -223,6 +225,9 @@ popd
 %endif
 
 %changelog
+* Fri Mar  8 2013 Akira TAGOH <tagoh@redhat.com> - 9100h-21
+- Apply a patch from Mike FABIAN to get anthy.el working back on Emacs 24.3.1.
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
