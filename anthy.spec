@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 21%{?dist}
+Release: 22%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -18,6 +18,7 @@ Patch0:  anthy-fix-typo-in-dict.patch
 Patch1:  anthy-fix-typo-in-dict-name.patch
 Patch10: anthy-corpus.patch
 Patch11: anthy-fix-elisp.patch
+Patch12: %{name}-aarch64.patch
 
 Summary: Japanese character set input library
 Group:  System Environment/Libraries
@@ -31,7 +32,7 @@ So Anthy is secure than other conversion server.
 %package devel
 Summary: Header files and library for developing programs which uses Anthy
 Group:  Development/Libraries
-Requires: anthy = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: pkgconfig
 
 %description devel
@@ -42,7 +43,7 @@ the programs which uses Anthy.
 Summary: Compiled elisp files to run Anthy under GNU Emacs
 Group:  System Environment/Libraries
 Requires: emacs(bin) >= %{_emacs_version}
-Requires: anthy = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 BuildArch: noarch
 
 %description -n emacs-%{pkg}
@@ -65,7 +66,7 @@ package to use Anthy with GNU Emacs.
 Summary: Compiled elisp files to run Anthy under XEmacs
 Group:  System Environment/Libraries
 Requires: xemacs(bin) >= %{_xemacs_version}
-Requires: anthy = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 BuildArch: noarch
 
 %description -n xemacs-%{pkg}
@@ -91,6 +92,7 @@ package to use Anthy with XEmacs.
 %patch1 -p1 -b .1-typo-name
 %patch10 -p1 -b .10-corpus
 %patch11 -p1 -b .11-elisp
+%patch12 -p1 -b .12-aarch64
 
 # Convert to utf-8
 for file in ChangeLog doc/protocol.txt; do
@@ -167,17 +169,17 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
 
 ## for emacs-anthy
-%__mkdir_p $RPM_BUILD_ROOT%{_emacs_sitestartdir}
+mkdir -p $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 
 %if 0%{?rhel} == 0
 ## for xemacs-anthy
-%__mkdir_p $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
+mkdir -p $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
 pushd $RPM_BUILD_DIR/%{name}-%{version}/src-util
 make clean
 make EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
-make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}"
+make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{_xemacs_sitelispdir}/%{pkg}" INSTALL="install -p"
 popd
 %endif
 
@@ -186,7 +188,6 @@ popd
 %postun -p /sbin/ldconfig
 
 %files
-%defattr (-, root, root, -)
 %doc AUTHORS COPYING ChangeLog DIARY NEWS README
 %{_bindir}/*
 %{_sysconfdir}/*
@@ -194,37 +195,35 @@ popd
 %{_datadir}/anthy/
 
 %files devel
-%defattr (-, root, root, -)
 %doc doc/DICLIB doc/DICUTIL doc/GLOSSARY doc/GRAMMAR doc/GUIDE.english doc/ILIB doc/LEARNING doc/LIB doc/MISC doc/POS doc/SPLITTER doc/TESTING doc/protocol.txt
 %{_includedir}/*
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
 
 %files -n emacs-%{pkg}
-%defattr(-, root, root, -)
 %doc doc/ELISP
 %{_emacs_sitelispdir}/%{pkg}/*.elc
 %{_emacs_sitestartdir}/*.el
 %dir %{_emacs_sitelispdir}/%{pkg}
 
 %files -n emacs-%{pkg}-el
-%defattr(-, root, root, -)
 %{_emacs_sitelispdir}/%{pkg}/*.el
 
 %if 0%{?rhel} == 0
 %files -n xemacs-%{pkg}
-%defattr(-, root, root, -)
 %doc doc/ELISP
 %{_xemacs_sitelispdir}/%{pkg}/*.elc
 %{_xemacs_sitestartdir}/*.el
 %dir %{_xemacs_sitelispdir}/%{pkg}
 
 %files -n xemacs-%{pkg}-el
-%defattr(-, root, root, -)
 %{_xemacs_sitelispdir}/%{pkg}/*.el
 %endif
 
 %changelog
+* Wed Mar 27 2013 Akira TAGOH <tagoh@redhat.com> - 9100h-22
+- Rebuilt for aarch64 support (#925002)
+
 * Fri Mar  8 2013 Akira TAGOH <tagoh@redhat.com> - 9100h-21
 - Apply a patch from Mike FABIAN to get anthy.el working back on Emacs 24.3.1.
 
