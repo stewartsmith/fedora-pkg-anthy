@@ -43,7 +43,7 @@ the programs which uses Anthy.
 Summary: Compiled elisp files to run Anthy under GNU Emacs
 Group:  System Environment/Libraries
 Requires: emacs(bin) >= %{_emacs_version}
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 BuildArch: noarch
 
 %description -n emacs-%{pkg}
@@ -66,7 +66,7 @@ package to use Anthy with GNU Emacs.
 Summary: Compiled elisp files to run Anthy under XEmacs
 Group:  System Environment/Libraries
 Requires: xemacs(bin) >= %{_xemacs_version}
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 BuildArch: noarch
 
 %description -n xemacs-%{pkg}
