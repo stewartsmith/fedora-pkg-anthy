@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 22%{?dist}
+Release: 23%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -13,12 +13,13 @@ BuildRequires: xemacs
 %endif
 
 Source0: http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
-Source1: anthy-init.el
-Patch0:  anthy-fix-typo-in-dict.patch
-Patch1:  anthy-fix-typo-in-dict-name.patch
-Patch10: anthy-corpus.patch
-Patch11: anthy-fix-elisp.patch
+Source1: %{name}-init.el
+Patch0:  %{name}-fix-typo-in-dict.patch
+Patch1:  %{name}-fix-typo-in-dict-name.patch
+Patch10: %{name}-corpus.patch
+Patch11: %{name}-fix-elisp.patch
 Patch12: %{name}-aarch64.patch
+Patch13: %{name}-fix-segfault.patch
 
 Summary: Japanese character set input library
 Group:  System Environment/Libraries
@@ -93,6 +94,7 @@ package to use Anthy with XEmacs.
 %patch10 -p1 -b .10-corpus
 %patch11 -p1 -b .11-elisp
 %patch12 -p1 -b .12-aarch64
+%patch13 -p1 -b .13-segv
 
 # Convert to utf-8
 for file in ChangeLog doc/protocol.txt; do
@@ -221,6 +223,9 @@ popd
 %endif
 
 %changelog
+* Mon Jun 17 2013 Akira TAGOH <tagoh@redhat.com> - 9100h-23
+- Fix a segfault issue. (#973127)
+
 * Wed Mar 27 2013 Akira TAGOH <tagoh@redhat.com> - 9100h-22
 - Rebuilt for aarch64 support (#925002)
 
