@@ -23,6 +23,14 @@ Patch13: %{name}-fix-segfault.patch
 
 Summary: Japanese character set input library
 Group:  System Environment/Libraries
+Requires: emacs-filesystem >= %{_emacs_version}
+Provides: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
+Obsoletes: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
+%if 0%{?rhel} == 0
+Requires: xemacs-filesystem >= %{_xemacs_version}
+Provides: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
+Obsoletes: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
+%endif
 
 %description
 Anthy provides the library to input Japanese on the applications, such as
@@ -39,33 +47,6 @@ Requires: pkgconfig
 %description devel
 The anthy-devel package contains the development files which is needed to build
 the programs which uses Anthy.
-
-%package -n emacs-%{pkg}
-Summary: Compiled elisp files to run Anthy under GNU Emacs
-Group:  System Environment/Libraries
-Requires: emacs(bin) >= %{_emacs_version}
-Requires: %{name} = %{version}-%{release}
-Provides: emacs-%{pkg}-el <= 9100h-27
-Obsoletes: emacs-%{pkg}-el <= 9100h-27
-BuildArch: noarch
-
-%description -n emacs-%{pkg}
-This package contains the byte compiled elisp packages to run Anthy with GNU
-Emacs.
-
-%if 0%{?rhel} == 0
-%package -n xemacs-%{pkg}
-Summary: Compiled elisp files to run Anthy under XEmacs
-Group:  System Environment/Libraries
-Requires: xemacs(bin) >= %{_xemacs_version}
-Requires: %{name} = %{version}-%{release}
-Provides: xemacs-%{pkg}-el <= 9100h-27
-Obsoletes: xemacs-%{pkg}-el <= 9100h-27
-BuildArch: noarch
-
-%description -n xemacs-%{pkg}
-This package contains the byte compiled elisp packages to use Anthy with
-XEmacs.
 
 
 %prep
@@ -176,6 +157,17 @@ popd
 %{_sysconfdir}/*
 %{_libdir}/lib*.so.*
 %{_datadir}/anthy/
+%doc doc/ELISP
+%{_emacs_sitelispdir}/%{pkg}/*.el
+%{_emacs_sitelispdir}/%{pkg}/*.elc
+%{_emacs_sitestartdir}/*.el
+%dir %{_emacs_sitelispdir}/%{pkg}
+%if 0%{?rhel} == 0
+%{_xemacs_sitelispdir}/%{pkg}/*.el
+%{_xemacs_sitelispdir}/%{pkg}/*.elc
+%{_xemacs_sitestartdir}/*.el
+%dir %{_xemacs_sitelispdir}/%{pkg}
+%endif
 
 %files devel
 %doc doc/DICLIB doc/DICUTIL doc/GLOSSARY doc/GRAMMAR doc/GUIDE.english doc/ILIB doc/LEARNING doc/LIB doc/MISC doc/POS doc/SPLITTER doc/TESTING doc/protocol.txt
@@ -183,25 +175,10 @@ popd
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
 
-%files -n emacs-%{pkg}
-%doc doc/ELISP
-%{_emacs_sitelispdir}/%{pkg}/*.el
-%{_emacs_sitelispdir}/%{pkg}/*.elc
-%{_emacs_sitestartdir}/*.el
-%dir %{_emacs_sitelispdir}/%{pkg}
-
-%if 0%{?rhel} == 0
-%files -n xemacs-%{pkg}
-%doc doc/ELISP
-%{_xemacs_sitelispdir}/%{pkg}/*.el
-%{_xemacs_sitelispdir}/%{pkg}/*.elc
-%{_xemacs_sitestartdir}/*.el
-%dir %{_xemacs_sitelispdir}/%{pkg}
-
 
 %changelog
 * Tue Jun 23 2015 Akira TAGOH <tagoh@redhat.com> - 9100h-28
-- Merge -el sub-package into main (#1234577)
+- Merge emacs sub-packages into main (#1234577)
 
 * Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
