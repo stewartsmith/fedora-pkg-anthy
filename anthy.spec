@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 27%{?dist}
+Release: 28%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -45,22 +45,13 @@ Summary: Compiled elisp files to run Anthy under GNU Emacs
 Group:  System Environment/Libraries
 Requires: emacs(bin) >= %{_emacs_version}
 Requires: %{name} = %{version}-%{release}
+Provides: emacs-%{pkg}-el <= 9100h-27
+Obsoletes: emacs-%{pkg}-el <= 9100h-27
 BuildArch: noarch
 
 %description -n emacs-%{pkg}
 This package contains the byte compiled elisp packages to run Anthy with GNU
 Emacs.
-
-%package -n emacs-%{pkg}-el
-Summary: Elisp source files for Anthy under GNU Emacs
-Group:  System Environment/Libraries
-Requires: emacs-%{pkg} = %{version}-%{release}
-BuildArch: noarch
-
-%description -n emacs-%{pkg}-el
-This package contains the elisp source files for Anthy under GNU Emacs. You
-do not need to install this package to run Anthy. Install the emacs-%{pkg}
-package to use Anthy with GNU Emacs.
 
 %if 0%{?rhel} == 0
 %package -n xemacs-%{pkg}
@@ -68,23 +59,13 @@ Summary: Compiled elisp files to run Anthy under XEmacs
 Group:  System Environment/Libraries
 Requires: xemacs(bin) >= %{_xemacs_version}
 Requires: %{name} = %{version}-%{release}
+Provides: xemacs-%{pkg}-el <= 9100h-27
+Obsoletes: xemacs-%{pkg}-el <= 9100h-27
 BuildArch: noarch
 
 %description -n xemacs-%{pkg}
 This package contains the byte compiled elisp packages to use Anthy with
 XEmacs.
-
-%package -n xemacs-%{pkg}-el
-Summary: Elisp source files for Anthy under XEmacs
-Group:  System Environment/Libraries
-Requires: xemacs-%{pkg} = %{version}-%{release}
-BuildArch: noarch
-
-%description -n xemacs-%{pkg}-el
-This package contains the elisp source files for Anthy under XEmacs. You do
-not need to install this package to run Anthy. Install the xemacs-%{pkg}
-package to use Anthy with XEmacs.
-%endif
 
 
 %prep
@@ -204,25 +185,24 @@ popd
 
 %files -n emacs-%{pkg}
 %doc doc/ELISP
+%{_emacs_sitelispdir}/%{pkg}/*.el
 %{_emacs_sitelispdir}/%{pkg}/*.elc
 %{_emacs_sitestartdir}/*.el
 %dir %{_emacs_sitelispdir}/%{pkg}
 
-%files -n emacs-%{pkg}-el
-%{_emacs_sitelispdir}/%{pkg}/*.el
-
 %if 0%{?rhel} == 0
 %files -n xemacs-%{pkg}
 %doc doc/ELISP
+%{_xemacs_sitelispdir}/%{pkg}/*.el
 %{_xemacs_sitelispdir}/%{pkg}/*.elc
 %{_xemacs_sitestartdir}/*.el
 %dir %{_xemacs_sitelispdir}/%{pkg}
 
-%files -n xemacs-%{pkg}-el
-%{_xemacs_sitelispdir}/%{pkg}/*.el
-%endif
 
 %changelog
+* Tue Jun 23 2015 Akira TAGOH <tagoh@redhat.com> - 9100h-28
+- Merge -el sub-package into main (#1234577)
+
 * Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9100h-27
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
