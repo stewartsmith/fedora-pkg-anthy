@@ -1,5 +1,5 @@
-%define use_utf8_dict 1
-%define pkg  anthy
+%global use_utf8_dict 1
+%global pkg  anthy
 
 Name:  anthy
 Version: 9100h
@@ -177,6 +177,9 @@ popd
 
 
 %changelog
+* Mon Jan  4 2016 Akira TAGOH <tagoh@redhat.com>
+- Use %%global instead of %%define.
+
 * Tue Jun 23 2015 Akira TAGOH <tagoh@redhat.com> - 9100h-28
 - Merge emacs sub-packages into main (#1234577)
 
