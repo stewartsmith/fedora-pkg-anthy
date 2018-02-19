@@ -3,11 +3,12 @@
 
 Name:  anthy
 Version: 9100h
-Release: 33%{?dist}
+Release: 34%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
 BuildRequires: emacs
+BuildRequires: gcc
 %if 0%{?rhel} == 0
 BuildRequires: xemacs
 %endif
@@ -50,13 +51,7 @@ the programs which uses Anthy.
 
 
 %prep
-%setup -q #-a 2
-%patch0 -p1 -b .0-typo
-%patch1 -p1 -b .1-typo-name
-%patch10 -p1 -b .10-corpus
-%patch11 -p1 -b .11-elisp
-%patch12 -p1 -b .12-aarch64
-%patch13 -p1 -b .13-segv
+%autosetup -p1
 
 # Convert to utf-8
 for file in ChangeLog doc/protocol.txt; do
@@ -152,7 +147,8 @@ popd
 %postun -p /sbin/ldconfig
 
 %files
-%doc AUTHORS COPYING ChangeLog DIARY NEWS README
+%doc AUTHORS ChangeLog DIARY NEWS README
+%license COPYING
 %{_bindir}/*
 %{_sysconfdir}/*
 %{_libdir}/lib*.so.*
@@ -177,6 +173,9 @@ popd
 
 
 %changelog
+* Mon Feb 19 2018 Akira TAGOH <tagoh@redhat.com>  - 9100h-34
+- Add BR: gcc.
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-33
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
