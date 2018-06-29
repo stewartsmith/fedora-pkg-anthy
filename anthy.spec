@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 34%{?dist}
+Release: 35%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -142,9 +142,7 @@ make install-lispLISP DESTDIR=$RPM_BUILD_ROOT EMACS=xemacs lispdir="%{_xemacs_si
 popd
 %endif
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %doc AUTHORS ChangeLog DIARY NEWS README
@@ -173,6 +171,9 @@ popd
 
 
 %changelog
+* Fri Jun 29 2018 Akira TAGOH <tagoh@redhat.com> - 9100h-35
+- Use ldconfig rpm macro.
+
 * Mon Feb 19 2018 Akira TAGOH <tagoh@redhat.com>  - 9100h-34
 - Add BR: gcc.
 
