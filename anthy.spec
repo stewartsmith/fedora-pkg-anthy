@@ -23,7 +23,6 @@ Patch12: %{name}-aarch64.patch
 Patch13: %{name}-fix-segfault.patch
 
 Summary: Japanese character set input library
-Group:  System Environment/Libraries
 Requires: emacs-filesystem >= %{_emacs_version}
 Provides: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
 Obsoletes: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
@@ -41,7 +40,6 @@ So Anthy is secure than other conversion server.
 
 %package devel
 Summary: Header files and library for developing programs which uses Anthy
-Group:  Development/Libraries
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: pkgconfig
 
