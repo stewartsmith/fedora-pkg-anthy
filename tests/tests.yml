@@ -1,0 +1,9 @@
+- hosts: localhost
+  tags:
+  - classic
+  required_package:
+  - anthy
+  roles:
+  - role: standard-test-basic
+  tests:
+  - run: true
