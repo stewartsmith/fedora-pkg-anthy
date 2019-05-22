@@ -1,9 +1,9 @@
 - hosts: localhost
-  tags:
-  - classic
-  required_package:
-  - anthy
   roles:
   - role: standard-test-basic
-  tests:
-  - run: true
+    tags:
+    - classic
+    required_packages:
+    - anthy
+    tests:
+    - run: ./runtest.sh
