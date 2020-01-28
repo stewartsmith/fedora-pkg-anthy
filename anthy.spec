@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 38%{?dist}
+Release: 39%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -169,6 +169,9 @@ popd
 
 
 %changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-39
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-38
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
