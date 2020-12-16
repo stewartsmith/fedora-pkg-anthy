@@ -11,6 +11,7 @@ BuildRequires: emacs
 BuildRequires: gcc
 %if 0%{?rhel} == 0
 BuildRequires: xemacs
+BuildRequires: make
 %endif
 
 Source0: http://osdn.dl.sourceforge.jp/anthy/37536/anthy-%{version}.tar.gz
