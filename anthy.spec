@@ -3,13 +3,13 @@
 
 Name:  anthy
 Version: 9100h
-Release: 43%{?dist}
+Release: 44%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
 BuildRequires: emacs
 BuildRequires: gcc
-%if 0%{?rhel} == 0
+%if 0%{?rhel} == 0 && 0%{?fedora} < 36
 BuildRequires: xemacs
 BuildRequires: make
 %endif
@@ -27,7 +27,7 @@ Summary: Japanese character set input library
 Requires: emacs-filesystem >= %{_emacs_version}
 Provides: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
 Obsoletes: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
-%if 0%{?rhel} == 0
+%if 0%{?rhel} == 0 && 0%{?fedora} < 36
 Requires: xemacs-filesystem >= %{_xemacs_version}
 Provides: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
 Obsoletes: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
@@ -130,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
 mkdir -p $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 
-%if 0%{?rhel} == 0
+%if 0%{?rhel} == 0 && 0%{?fedora} < 36
 ## for xemacs-anthy
 mkdir -p $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
@@ -155,7 +155,7 @@ popd
 %{_emacs_sitelispdir}/%{pkg}/*.elc
 %{_emacs_sitestartdir}/*.el
 %dir %{_emacs_sitelispdir}/%{pkg}
-%if 0%{?rhel} == 0
+%if 0%{?rhel} == 0 && 0%{?fedora} < 36
 %{_xemacs_sitelispdir}/%{pkg}/*.el
 %{_xemacs_sitelispdir}/%{pkg}/*.elc
 %{_xemacs_sitestartdir}/*.el
@@ -170,6 +170,9 @@ popd
 
 
 %changelog
+* Tue Nov  9 2021 Jerry James <loganjerry@gmail.com> - 9100h-44
+- Drop XEmacs support in F36 and later
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-43
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
