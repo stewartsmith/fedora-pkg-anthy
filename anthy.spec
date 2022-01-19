@@ -3,7 +3,7 @@
 
 Name:  anthy
 Version: 9100h
-Release: 44%{?dist}
+Release: 45%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
@@ -170,6 +170,9 @@ popd
 
 
 %changelog
+* Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-45
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Tue Nov  9 2021 Jerry James <loganjerry@gmail.com> - 9100h-44
 - Drop XEmacs support in F36 and later
 
