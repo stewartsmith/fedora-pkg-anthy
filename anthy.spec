@@ -1,15 +1,22 @@
 %global use_utf8_dict 1
 %global pkg  anthy
 
+%if 0%{?rhel} == 0 && 0%{?fedora} < 36
+%bcond_without xemacs
+%else
+# xemacs disabled on RHEL and Fedora 36+
+%bcond_with xemacs
+%endif
+
 Name:  anthy
 Version: 9100h
-Release: 45%{?dist}
+Release: 46%{?dist}
 # The entire source code is LGPLv2+ and dictionaries is GPLv2. the corpus data is under Public Domain.
 License: LGPLv2+ and GPLv2 and Public Domain
 URL:  http://sourceforge.jp/projects/anthy/
 BuildRequires: emacs
 BuildRequires: gcc
-%if 0%{?rhel} == 0 && 0%{?fedora} < 36
+%if %{with xemacs}
 BuildRequires: xemacs
 BuildRequires: make
 %endif
@@ -27,7 +34,7 @@ Summary: Japanese character set input library
 Requires: emacs-filesystem >= %{_emacs_version}
 Provides: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
 Obsoletes: emacs-%{pkg}-el <= 9100h-27, emacs-%{pkg} <= 9100h-27
-%if 0%{?rhel} == 0 && 0%{?fedora} < 36
+%if %{with xemacs}
 Requires: xemacs-filesystem >= %{_xemacs_version}
 Provides: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
 Obsoletes: xemacs-%{pkg}-el <= 9100h-27, xemacs-%{pkg} <= 9100h-27
@@ -130,7 +137,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/lib*.{la,a}
 mkdir -p $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_emacs_sitestartdir}
 
-%if 0%{?rhel} == 0 && 0%{?fedora} < 36
+%if %{with xemacs}
 ## for xemacs-anthy
 mkdir -p $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_xemacs_sitestartdir}
@@ -155,7 +162,7 @@ popd
 %{_emacs_sitelispdir}/%{pkg}/*.elc
 %{_emacs_sitestartdir}/*.el
 %dir %{_emacs_sitelispdir}/%{pkg}
-%if 0%{?rhel} == 0 && 0%{?fedora} < 36
+%if %{with xemacs}
 %{_xemacs_sitelispdir}/%{pkg}/*.el
 %{_xemacs_sitelispdir}/%{pkg}/*.elc
 %{_xemacs_sitestartdir}/*.el
@@ -170,6 +177,9 @@ popd
 
 
 %changelog
+* Tue May 31 Stewart Smith <trawets@amazon.com> - 9100h-46
+- Switch xemacs build condition to bcond
+
 * Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 9100h-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
